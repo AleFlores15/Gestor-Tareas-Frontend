@@ -8,7 +8,7 @@ export const loginUser = async (email, password) => {
       email,
       password
     });
-    return response.data; // Aquí normalmente viene el token o los datos del usuario
+    return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Error al iniciar sesión' };
   }
