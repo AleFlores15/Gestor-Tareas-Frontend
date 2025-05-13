@@ -31,9 +31,9 @@ function LoginPage() {
       setSpinnerType("success");
 
       setTimeout(() => {
-        navigate("/dashboard"); // Cambia esta ruta según tu app
+        navigate("/dashboard"); 
         setLoading(false);
-      }, remaining > 0 ? remaining + 1000 : 1000); // 1 segundo extra para mostrar mensaje
+      }, remaining > 0 ? remaining + 1000 : 1000); 
 
     } catch (err) {
       const elapsed = Date.now() - startTime;
@@ -46,7 +46,7 @@ function LoginPage() {
       setTimeout(() => {
         setError(msg);
         setLoading(false);
-      }, remaining > 0 ? remaining + 1000 : 1000); // 1 segundo extra para mostrar error
+      }, remaining > 0 ? remaining + 1000 : 1000); 
     }
   };
 
