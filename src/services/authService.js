@@ -40,6 +40,19 @@ export const registerUser = async (nombre, email, password) => {
     throw error.response?.data || { message: 'Error al registrar usuario' };
   }
 };
+export const getUser = async () => {
+    try {
+        const token = getToken();
+        const response = await axios.get(`${API_URL}/user`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+        });
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || { message: 'Error al obtener usuario' };
+    }
+};
 
 
 /*
