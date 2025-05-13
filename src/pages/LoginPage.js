@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginForm from "../components/LoginForm";
-import SpinnerModal from "../components/SpinnerModal";
 import { loginUser, saveToken } from "../services/authService";
+import SpinnerModal from "../components/SpinnerModal";
 
 function LoginPage() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [spinnerMessage, setSpinnerMessage] = useState("Cargando...");
+  const [spinnerType, setSpinnerType] = useState("loading");
   const navigate = useNavigate();
 
   const handleLogin = async ({ email, password }) => {
     setLoading(true);
     setError(null);
+    setSpinnerMessage("Iniciando sesión...");
+    setSpinnerType("loading");
 
-    const MIN_SPINNER_TIME = 1000; 
+    const MIN_SPINNER_TIME = 1000;
     const startTime = Date.now();
 
     try {
@@ -23,48 +27,39 @@ function LoginPage() {
       const elapsed = Date.now() - startTime;
       const remaining = MIN_SPINNER_TIME - elapsed;
 
-      setTimeout(
-        () => {
-          navigate("/dashboard"); // o donde redirijas
-          setLoading(false);
-        },
-        remaining > 0 ? remaining : 0
-      );
+      setSpinnerMessage(data.message || "Login exitoso");
+      setSpinnerType("success");
+
+      setTimeout(() => {
+        navigate("/dashboard"); // Cambia esta ruta según tu app
+        setLoading(false);
+      }, remaining > 0 ? remaining + 1000 : 1000); // 1 segundo extra para mostrar mensaje
+
     } catch (err) {
       const elapsed = Date.now() - startTime;
       const remaining = MIN_SPINNER_TIME - elapsed;
 
-      setTimeout(
-        () => {
-          setError(err.message || "Error desconocido");
-          setLoading(false);
-        },
-        remaining > 0 ? remaining : 0
-      );
+      const msg = err.message || "Error desconocido";
+      setSpinnerMessage(msg);
+      setSpinnerType("error");
+
+      setTimeout(() => {
+        setError(msg);
+        setLoading(false);
+      }, remaining > 0 ? remaining + 1000 : 1000); // 1 segundo extra para mostrar error
     }
   };
 
-  /*
-  const handleLogin = async ({ email, password }) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await loginUser(email, password);
-      saveToken(data.token);
-      navigate('/dashboard'); 
-    } catch (err) {
-      setError(err.message || 'Error desconocido');
-    } finally {
-      setLoading(false);
-    }
-  };
-*/
   return (
     <div className="container mt-5">
       <h2>Iniciar Sesión</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
       <LoginForm onSubmit={handleLogin} />
-      <SpinnerModal show={loading} />
+      <SpinnerModal 
+        show={loading} 
+        message={spinnerMessage} 
+        loading={spinnerType === "loading"} 
+        type={spinnerType}
+      />
     </div>
   );
 }

@@ -1,7 +1,31 @@
 import React from 'react';
 
-function SpinnerModal({ show, message = "Cargando..." }) {
+function SpinnerModal({ show, loading = true, message = "Cargando...", type = "loading" }) {
   if (!show) return null;
+
+  const getColor = () => {
+    if (type === "success") return "text-success";
+    if (type === "error") return "text-danger";
+    return "text-primary";
+  };
+
+  const getIcon = () => {
+    if (type === "success") {
+      return <i className="bi bi-check-circle-fill text-success fs-1 mb-2"></i>;
+    }
+    if (type === "error") {
+      return <i className="bi bi-x-circle-fill text-danger fs-1 mb-2"></i>;
+    }
+    return (
+      <div 
+        className="spinner-border text-primary mb-2" 
+        role="status" 
+        style={{ width: '2.5rem', height: '2.5rem' }}
+      >
+        <span className="visually-hidden">Cargando...</span>
+      </div>
+    );
+  };
 
   return (
     <div 
@@ -13,18 +37,12 @@ function SpinnerModal({ show, message = "Cargando..." }) {
       <div 
         className="modal-dialog modal-dialog-centered"
         role="document"
-        style={{ maxWidth: '200px', margin: 'auto' }} // 👈 aquí se ajusta el ancho
+        style={{ maxWidth: '220px', margin: 'auto' }}
       >
         <div className="modal-content">
           <div className="modal-body d-flex flex-column align-items-center justify-content-center text-center py-4">
-            <div 
-              className="spinner-border text-primary" 
-              role="status" 
-              style={{ width: '2.5rem', height: '2.5rem' }}
-            >
-              <span className="visually-hidden">Cargando...</span>
-            </div>
-            <p className="mt-3 mb-0">{message}</p>
+            {getIcon()}
+            <p className={`mt-2 mb-0 fw-medium ${getColor()}`}>{message}</p>
           </div>
         </div>
       </div>
