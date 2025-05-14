@@ -50,3 +50,18 @@ export const eliminarTarea = async (id) => {
     throw error;
   }
 };
+// Actualizar una tarea
+export const actualizarTarea = async (id, tarea) => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.put(`${API_URL}/${id}`, tarea, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al actualizar tarea:', error);
+    throw error;
+  }
+};
