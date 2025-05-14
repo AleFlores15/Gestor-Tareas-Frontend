@@ -35,3 +35,18 @@ export const crearTarea = async (tarea) => {
     throw error;
   }
 };
+//eliminar una tarea
+export const eliminarTarea = async (id) => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.delete(`${API_URL}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al eliminar tarea:', error);
+    throw error;
+  }
+};
