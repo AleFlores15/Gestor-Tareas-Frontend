@@ -1,4 +1,3 @@
-// pages/Error401.js
 import React from 'react';
 
 const Unauthorized = () => {

@@ -26,6 +26,7 @@ export const getToken = () => {
 }
 export const logoutUser = () => {
   localStorage.removeItem('token');
+  window.location.href = '/login';
 };
 
 export const registerUser = async (nombre, email, password) => {

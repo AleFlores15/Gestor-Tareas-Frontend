@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import TaskPage from './pages/TaskPage';
 import CreateTaskPage from './pages/CreateTaskPage';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
@@ -20,8 +21,24 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/about" element={<h1>Acerca de</h1>} />
-        <Route path="/tasks" element={<TaskPage />} />
-        <Route path="/create-task" element={<CreateTaskPage />} />
+
+        <Route
+          path="/tasks"
+          element={
+            <PrivateRoute>
+              <TaskPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/create-task"
+          element={
+            <PrivateRoute>
+              <CreateTaskPage />
+            </PrivateRoute>
+          }
+        />
+
       </Routes>
     </Router>
 
