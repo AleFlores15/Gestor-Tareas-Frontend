@@ -54,31 +54,3 @@ export const getUser = async () => {
     }
 };
 
-
-
-//crear un interceptor para agregar el token a las peticiones
-axios.interceptors.request.use(
-  (config) => {
-    const token = getToken();
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-//crear un interceptor para manejar los errores
-axios.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    if (error.response.status === 401) {
-      logoutUser();
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);

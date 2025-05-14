@@ -16,3 +16,19 @@ export const obtenerTareas = async () => {
     throw error;
   }
 };
+
+// Crear una nueva tarea
+export const crearTarea = async (tarea) => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.post(`${API_URL}`, tarea, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al crear tarea:', error);
+    throw error;
+  }
+};

@@ -31,8 +31,14 @@ function Navbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/register">Registro</Link>
             </li>
-            
-            
+            <li className="nav-item">
+              <Link className="nav-link" to="/tasks">Tareas</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/create-task">Crear Tarea</Link>
+            </li>
+
+
           </ul>
         </div>
       </div>
