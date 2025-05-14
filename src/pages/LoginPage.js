@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import LoginForm from "../components/LoginForm";
 import { loginUser, saveToken } from "../services/authService";
 import SpinnerModal from "../components/SpinnerModal";
+//router
+
 
 function LoginPage() {
   const [error, setError] = useState(null);
@@ -31,7 +33,7 @@ function LoginPage() {
       setSpinnerType("success");
 
       setTimeout(() => {
-        navigate("/dashboard"); 
+        navigate("/tasks");
         setLoading(false);
       }, remaining > 0 ? remaining + 1000 : 1000); 
 

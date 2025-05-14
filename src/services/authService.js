@@ -55,7 +55,7 @@ export const getUser = async () => {
 };
 
 
-/*
+
 //crear un interceptor para agregar el token a las peticiones
 axios.interceptors.request.use(
   (config) => {
@@ -81,4 +81,4 @@ axios.interceptors.response.use(
     }
     return Promise.reject(error);
   }
-);*/
+);
