@@ -1,12 +1,9 @@
 import React from 'react';
 
-const Task = ({ tarea, onDragStart }) => {
+const Task = ({ tarea }) => {
   return (
     <div
-      className="card mb-3 shadow-sm task-card"
-      draggable
-      onDragStart={(e) => onDragStart(e, tarea.id)}
-    >
+      className="card mb-3 shadow-sm task-card"    >
       <div className="card-body">
         <h5 className="card-title">{tarea.titulo}</h5>
         <p className="card-text">{tarea.descripcion}</p>
