@@ -2,10 +2,12 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3001/api/tasks';
 
-export const obtenerTareas = async () => {
+export const obtenerTareas = async (filtros = {}) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`${API_URL}`, {
+    const params = new URLSearchParams(filtros).toString();
+
+    const response = await axios.get(`${API_URL}?${params}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -16,6 +18,7 @@ export const obtenerTareas = async () => {
     throw error;
   }
 };
+
 
 // Crear una nueva tarea
 export const crearTarea = async (tarea) => {
