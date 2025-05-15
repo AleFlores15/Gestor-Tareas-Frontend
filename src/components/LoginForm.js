@@ -49,6 +49,11 @@ function LoginForm({ onSubmit }) {
           <div className="d-grid">
             <button type="submit" className="btn btn-primary">Iniciar Sesión</button>
           </div>
+          <div className="text-center mt-3">
+            <p className="text-muted">
+              ¿No tienes una cuenta? <a href="/register" className="text-primary">Regístrate aquí</a>
+            </p>
+          </div>
         </form>
       </div>
     </div>

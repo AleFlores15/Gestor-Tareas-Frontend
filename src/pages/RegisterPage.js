@@ -31,7 +31,7 @@ function RegisterPage() {
       setTimeout(() => {
         navigate("/login");
         setLoading(false);
-      }, remaining > 0 ? remaining + 1000 : 1000); 
+      }, remaining > 0 ? remaining + 1000 : 1000);
 
     } catch (err) {
       const elapsed = Date.now() - startTime;
@@ -44,20 +44,26 @@ function RegisterPage() {
       setTimeout(() => {
         setError(msg);
         setLoading(false);
-      }, remaining > 0 ? remaining + 1000 : 1000); // muestra error 1s más
+      }, remaining > 0 ? remaining + 1000 : 1000);
     }
   };
 
   return (
-    <div className="container mt-5">
-      <h2>Registro de Usuario</h2>
-      <RegisterForm onSubmit={handleRegister} />
-      <SpinnerModal 
-        show={loading} 
-        message={spinnerMessage} 
-        loading={spinnerType === "loading"} 
-        type={spinnerType}
-      />
+    <div className="bg-light min-vh-100 d-flex align-items-center justify-content-center">
+      <div className="container">
+        <RegisterForm onSubmit={handleRegister} />
+        {error && (
+          <div className="alert alert-danger text-center mt-3" role="alert">
+            {error}
+          </div>
+        )}
+        <SpinnerModal 
+          show={loading}
+          message={spinnerMessage}
+          loading={spinnerType === "loading"}
+          type={spinnerType}
+        />
+      </div>
     </div>
   );
 }

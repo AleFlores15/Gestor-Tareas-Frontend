@@ -21,7 +21,7 @@ const CreateTask = () => {
     e.preventDefault();
     try {
       await crearTarea(tarea);
-      navigate('/');
+      navigate('/tasks');
     } catch (err) {
       setError('No se pudo crear la tarea.');
     }
