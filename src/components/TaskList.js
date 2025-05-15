@@ -5,6 +5,7 @@ import { obtenerTareas } from '../services/taskService';
 const TaskList = () => {
   const [tareas, setTareas] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [alerta, setAlerta] = useState({ mensaje: '', tipo: '' });
   const [filtros, setFiltros] = useState({
     search: '',
     estado: '',
@@ -22,10 +23,17 @@ const TaskList = () => {
       const tareasObtenidas = await obtenerTareas(filtrosActivos);
       setTareas(tareasObtenidas);
     } catch (error) {
-      console.error('No se pudieron cargar las tareas');
+      mostrarAlerta('Error al cargar tareas', 'danger');
     } finally {
       setLoading(false);
     }
+  };
+
+  const mostrarAlerta = (mensaje, tipo = 'success') => {
+    setAlerta({ mensaje, tipo });
+    setTimeout(() => {
+      setAlerta({ mensaje: '', tipo: '' });
+    }, 3000);
   };
 
   const handleInputChange = (e) => {
@@ -55,10 +63,15 @@ const TaskList = () => {
     completada: tareas.filter(t => t.estado === 'completada'),
   };
 
-
   return (
     <div className="container mt-4">
       <h3 className="mb-3">Tareas</h3>
+
+      {alerta.mensaje && (
+        <div className={`alert alert-${alerta.tipo} alert-dismissible fade show`} role="alert">
+          {alerta.mensaje}
+        </div>
+      )}
 
       <form className="row g-3 mb-4" onSubmit={handleFiltrar}>
         <div className="col-md-4">
@@ -121,7 +134,18 @@ const TaskList = () => {
                 <p className="text-center text-muted">Sin tareas</p>
               ) : (
                 lista.map((tarea) => (
-                  <Task key={tarea.id} tarea={tarea}  />
+                  <Task
+                    key={tarea.id}
+                    tarea={tarea}
+                    onTareaActualizada={() => {
+                      cargarTareas(); // recarga
+                      mostrarAlerta('Tarea actualizada correctamente');
+                    }}
+                    onTareaEliminada={() => {
+                      cargarTareas();
+                      mostrarAlerta('Tarea eliminada', 'warning');
+                    }}
+                  />
                 ))
               )}
             </div>

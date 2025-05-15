@@ -10,29 +10,48 @@ function LoginForm({ onSubmit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label>Email</label>
-        <input
-          type="email"
-          className="form-control"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+      <div className="card shadow-sm p-4" >
+        <h3 className="text-center mb-4 text-primary">Iniciar Sesión</h3>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Email</label>
+            <div className="input-group">
+              <span className="input-group-text">
+                <i className="bi bi-envelope-fill"></i>
+              </span>
+              <input
+                type="email"
+                className="form-control"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="correo@ejemplo.com"
+                required
+              />
+            </div>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Contraseña</label>
+            <div className="input-group">
+              <span className="input-group-text">
+                <i className="bi bi-lock-fill"></i>
+              </span>
+              <input
+                type="password"
+                className="form-control"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="Tu contraseña"
+                required
+              />
+            </div>
+          </div>
+          <div className="d-grid">
+            <button type="submit" className="btn btn-primary">Iniciar Sesión</button>
+          </div>
+        </form>
       </div>
-      <div className="mb-3">
-        <label>Contraseña</label>
-        <input
-          type="password"
-          className="form-control"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-        />
-      </div>
-      <button type="submit" className="btn btn-primary">Iniciar Sesión</button>
-    </form>
+    </div>
   );
 }
 

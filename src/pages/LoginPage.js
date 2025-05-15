@@ -53,8 +53,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="container mt-5">
-      <h2>Iniciar Sesión</h2>
+    <>
       <LoginForm onSubmit={handleLogin} />
       <SpinnerModal 
         show={loading} 
@@ -62,7 +61,7 @@ function LoginPage() {
         loading={spinnerType === "loading"} 
         type={spinnerType}
       />
-    </div>
+    </>
   );
 }
 

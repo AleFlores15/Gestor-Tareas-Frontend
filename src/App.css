@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  background-color: #f9fafb;
+  font-family: 'Segoe UI', sans-serif;
+}
+.card {
+  border-radius: 1rem;
+}
