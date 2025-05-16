@@ -40,10 +40,6 @@ function Navbar() {
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
-
-              <li className="nav-item">
-                <Link className="nav-link" to="/register">Registro</Link>
-              </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/tasks">Tareas</Link>
               </li>

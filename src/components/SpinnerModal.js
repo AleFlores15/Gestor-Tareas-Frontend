@@ -1,53 +1,113 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { crearTarea } from '../services/taskService';
+import { useNavigate } from 'react-router-dom';
+import SpinnerModal from '../components/SpinnerModal'; // Asegúrate de que el path sea correcto
 
-function SpinnerModal({ show, loading = true, message = "Cargando...", type = "loading" }) {
-  if (!show) return null;
+const CreateTask = () => {
+  const [tarea, setTarea] = useState({
+    titulo: '',
+    descripcion: '',
+    estado: 'pendiente',
+    fechaLimite: '',
+  });
 
-  const getColor = () => {
-    if (type === "success") return "text-success";
-    if (type === "error") return "text-danger";
-    return "text-primary";
+  const [spinner, setSpinner] = useState({ show: false, type: 'loading', message: '' });
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setTarea({ ...tarea, [e.target.name]: e.target.value });
   };
 
-  const getIcon = () => {
-    if (type === "success") {
-      return <i className="bi bi-check-circle-fill text-success fs-1 mb-2"></i>;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const today = new Date().toISOString().split('T')[0];
+
+    if (tarea.fechaLimite < today) {
+      setSpinner({
+        show: true,
+        type: 'error',
+        message: 'La fecha límite no puede ser anterior a hoy.',
+      });
+
+      setTimeout(() => {
+        setSpinner({ show: false, type: 'loading', message: '' });
+      }, 2500);
+
+      return;
     }
-    if (type === "error") {
-      return <i className="bi bi-x-circle-fill text-danger fs-1 mb-2"></i>;
+
+    setSpinner({ show: true, type: 'loading', message: 'Creando tarea...' });
+
+    try {
+      await crearTarea(tarea);
+      setSpinner({ show: true, type: 'success', message: 'Tarea creada correctamente.' });
+
+      setTimeout(() => {
+        setSpinner({ show: false, type: 'loading', message: '' });
+        navigate('/tasks');
+      }, 1500);
+    } catch (err) {
+      setSpinner({ show: true, type: 'error', message: 'No se pudo crear la tarea.' });
+
+      setTimeout(() => {
+        setSpinner({ show: false, type: 'loading', message: '' });
+      }, 2500);
     }
-    return (
-      <div 
-        className="spinner-border text-primary mb-2" 
-        role="status" 
-        style={{ width: '2.5rem', height: '2.5rem' }}
-      >
-        <span className="visually-hidden">Cargando...</span>
-      </div>
-    );
   };
+
+  const todayDate = new Date().toISOString().split('T')[0];
 
   return (
-    <div 
-      className="modal show d-block"
-      tabIndex="-1"
-      role="dialog"
-      style={{ backgroundColor: 'rgba(0,0,0,0.3)', zIndex: 1050 }}
-    >
-      <div 
-        className="modal-dialog modal-dialog-centered"
-        role="document"
-        style={{ maxWidth: '220px', margin: 'auto' }}
-      >
-        <div className="modal-content">
-          <div className="modal-body d-flex flex-column align-items-center justify-content-center text-center py-4">
-            {getIcon()}
-            <p className={`mt-2 mb-0 fw-medium ${getColor()}`}>{message}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+    <>
+      <form className="container mt-4" onSubmit={handleSubmit}>
+        <h2>Crear nueva tarea</h2>
 
-export default SpinnerModal;
+        <div className="mb-3">
+          <label className="form-label">Título</label>
+          <input
+            type="text"
+            name="titulo"
+            className="form-control"
+            value={tarea.titulo}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Descripción</label>
+          <textarea
+            name="descripcion"
+            className="form-control"
+            rows="3"
+            value={tarea.descripcion}
+            onChange={handleChange}
+          ></textarea>
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Fecha límite</label>
+          <input
+            type="date"
+            name="fechaLimite"
+            className="form-control"
+            value={tarea.fechaLimite}
+            onChange={handleChange}
+            min={todayDate}
+          />
+        </div>
+
+        <button type="submit" className="btn btn-primary">Crear tarea</button>
+      </form>
+
+      <SpinnerModal
+        show={spinner.show}
+        type={spinner.type}
+        message={spinner.message}
+      />
+    </>
+  );
+};
+
+export default CreateTask;
