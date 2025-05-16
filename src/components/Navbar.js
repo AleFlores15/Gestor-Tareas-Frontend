@@ -1,32 +1,42 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { logoutUser } from '../services/authService';
-import SpinnerModal from '../components/SpinnerModal';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { logoutUser } from "../services/authService";
+import SpinnerModal from "../components/SpinnerModal";
 
 function Navbar() {
   const navigate = useNavigate();
   const [showSpinner, setShowSpinner] = useState(false);
-  const [spinnerMsg, setSpinnerMsg] = useState('');
-  const [spinnerType, setSpinnerType] = useState('success');
+  const [spinnerMsg, setSpinnerMsg] = useState("");
+  const [spinnerType, setSpinnerType] = useState("success");
 
   const handleLogout = () => {
     setShowSpinner(true);
-    setSpinnerMsg('Sesión cerrada con éxito');
-
-    setSpinnerType('success');
+    setSpinnerMsg("Sesión cerrada con éxito");
+    setSpinnerType("success");
     logoutUser();
-
     setTimeout(() => {
       setShowSpinner(false);
-      navigate('/login');
-    }, 1000); // 1 segundo de spinner
+      navigate("/login");
+    }, 1000);
   };
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav
+        className="navbar navbar-expand-lg shadow-sm"
+        style={{
+          backgroundColor: "#ffffff",
+          borderBottom: "1px solid #e5e7eb",
+        }}
+      >
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">To do App</Link>
+          <Link
+            className="navbar-brand fw-bold"
+            to="/tasks"
+            style={{ color: "#2563eb" }}
+          >
+            <i className="bi bi-check2-square me-2"></i>To do App
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -38,26 +48,46 @@ function Navbar() {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto">
 
-              <li className="nav-item">
-                <Link className="nav-link" to="/register">Registro</Link>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto d-flex align-items-center">
+              <li className="nav-item mx-2">
+                <Link
+                  className="nav-link text-dark d-flex align-items-center gap-1"
+                  to="/tasks"
+                >
+                  <i className="bi bi-list-task fs-5"></i>
+                  <span>Tareas</span>
+                </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/tasks">Tareas</Link>
+              <li className="nav-item mx-2">
+                <Link
+                  className="nav-link text-dark d-flex align-items-center gap-1"
+                  to="/create-task"
+                >
+                  <i className="bi bi-plus-square fs-5"></i>
+                  <span>Crear Tarea</span>
+                </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/create-task">Crear Tarea</Link>
-              </li>
-              <li className="nav-item">
-                <button className="btn btn-link nav-link" onClick={handleLogout}>Cerrar Sesión</button>
+              <li className="nav-item mx-2">
+                <button
+                  className="btn nav-link text-danger d-flex align-items-center gap-1"
+                  style={{ border: "none", background: "none" }}
+                  onClick={handleLogout}
+                >
+                  <i className="bi bi-box-arrow-right fs-5"></i>
+                  <span>Cerrar Sesión</span>
+                </button>
               </li>
             </ul>
           </div>
         </div>
       </nav>
-      <SpinnerModal show={showSpinner} message={spinnerMsg} type={spinnerType} />
+      <SpinnerModal
+        show={showSpinner}
+        message={spinnerMsg}
+        type={spinnerType}
+      />
     </>
   );
 }

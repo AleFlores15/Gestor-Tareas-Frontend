@@ -19,7 +19,7 @@ function LoginPage() {
     setSpinnerMessage("Iniciando sesión...");
     setSpinnerType("loading");
 
-    const MIN_SPINNER_TIME = 1000;
+    const MIN_SPINNER_TIME = 500;
     const startTime = Date.now();
 
     try {
@@ -35,7 +35,7 @@ function LoginPage() {
       setTimeout(() => {
         navigate("/tasks");
         setLoading(false);
-      }, remaining > 0 ? remaining + 1000 : 1000); 
+      }, remaining > 0 ? remaining + 500 : 1000); 
 
     } catch (err) {
       const elapsed = Date.now() - startTime;
@@ -48,7 +48,7 @@ function LoginPage() {
       setTimeout(() => {
         setError(msg);
         setLoading(false);
-      }, remaining > 0 ? remaining + 1000 : 1000); 
+      }, remaining > 0 ? remaining + 500 : 1000); 
     }
   };
 

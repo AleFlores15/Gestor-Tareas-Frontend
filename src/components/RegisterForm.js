@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function RegisterForm({ onSubmit }) {
-  const [nombre, setNombre] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [nombre, setNombre] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -11,8 +11,8 @@ function RegisterForm({ onSubmit }) {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <div className="card shadow-sm p-4" style={{ minWidth: "360px" }}>
+    <div className="container-sm d-flex justify-content-center align-items-center min-vh-100 px-3">
+      <div className="card shadow-sm p-4 w-100" style={{ maxWidth: "400px" }}>
         <h3 className="text-center mb-4 text-primary">Crear Cuenta</h3>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -74,7 +74,7 @@ function RegisterForm({ onSubmit }) {
 
           <div className="text-center">
             <p className="text-muted mb-0">
-              ¿Ya tienes una cuenta?{' '}
+              ¿Ya tienes una cuenta?{" "}
               <a href="/login" className="text-primary">
                 Inicia sesión
               </a>

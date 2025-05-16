@@ -17,7 +17,7 @@ function RegisterPage() {
     setSpinnerMessage("Registrando usuario...");
     setSpinnerType("loading");
 
-    const MIN_SPINNER_TIME = 1000;
+    const MIN_SPINNER_TIME = 600;
     const startTime = Date.now();
 
     try {
@@ -31,20 +31,24 @@ function RegisterPage() {
       setTimeout(() => {
         navigate("/login");
         setLoading(false);
-      }, remaining > 0 ? remaining + 1000 : 1000);
+      }, remaining > 0 ? remaining + 600 : 1000);
 
     } catch (err) {
+      console.log(err);
       const elapsed = Date.now() - startTime;
       const remaining = MIN_SPINNER_TIME - elapsed;
 
-      const msg = err.message || "Error desconocido";
+const msg = (Array.isArray(err.errores) && err.errores.length > 0 && err.errores[0].msg)
+  || err.message
+  || (err.errores?.msg)
+  || "Error desconocido";
       setSpinnerMessage(msg);
       setSpinnerType("error");
 
       setTimeout(() => {
         setError(msg);
         setLoading(false);
-      }, remaining > 0 ? remaining + 1000 : 1000);
+      }, remaining > 0 ? remaining + 600 : 1000);
     }
   };
 
