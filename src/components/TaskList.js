@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Task from "./Task";
 import { obtenerTareas } from "../services/taskService";
 
+
 const TaskList = () => {
   const [tareas, setTareas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,6 +13,8 @@ const TaskList = () => {
     fechaInicio: "",
     fechaFin: "",
   });
+  const [modalMensaje, setModalMensaje] = useState("");
+  const [modalAccion, setModalAccion] = useState(() => () => {});
 
   useEffect(() => {
     cargarTareas();
@@ -35,7 +38,7 @@ const TaskList = () => {
       setAlerta({ mensaje: "", tipo: "" });
     }, 3000);
   };
-
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     const nuevosFiltros = { ...filtros, [name]: value };
