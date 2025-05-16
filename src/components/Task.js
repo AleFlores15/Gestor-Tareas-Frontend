@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { actualizarTarea, eliminarTarea } from '../services/taskService';
 import ConfirmModal from './ConfirmModal';
+import EditTaskModal from './EditTaskModal';
 
 const Task = ({ tarea, onTareaActualizada, onTareaEliminada }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [modalMessage, setModalMessage] = useState('');
   const [accionConfirmada, setAccionConfirmada] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const abrirModal = (accion, titulo, mensaje) => {
     setAccionConfirmada(() => accion);
@@ -46,6 +48,17 @@ const Task = ({ tarea, onTareaActualizada, onTareaEliminada }) => {
       onTareaEliminada();
     } catch (error) {
       onTareaEliminada?.();
+    }
+  };
+
+  const actualizar = async (tareaActualizada) => {
+    try {
+      await actualizarTarea(tarea.id, tareaActualizada);
+      onTareaActualizada();
+    } catch (error) {
+      console.error('Error al actualizar tarea:', error);
+    } finally {
+      setShowEditModal(false);
     }
   };
 
@@ -101,6 +114,14 @@ const Task = ({ tarea, onTareaActualizada, onTareaEliminada }) => {
           </span>
 
           <div className="d-grid gap-2 mt-2">
+            {tarea.estado !== 'completada' && (
+              <button
+                className="btn btn-outline-primary btn-sm"
+                onClick={() => setShowEditModal(true)}
+              >
+                <i className="bi bi-pencil-square me-1"></i>Editar tarea
+              </button>
+            )}
             {tarea.estado === 'pendiente' && (
               <button
                 className="btn btn-outline-info btn-sm"
@@ -153,6 +174,13 @@ const Task = ({ tarea, onTareaActualizada, onTareaEliminada }) => {
         onConfirm={handleConfirmacion}
         title={modalTitle}
         message={modalMessage}
+      />
+
+      <EditTaskModal
+        show={showEditModal}
+        onHide={() => setShowEditModal(false)}
+        onConfirm={actualizar}
+        tarea={tarea}
       />
     </>
   );
