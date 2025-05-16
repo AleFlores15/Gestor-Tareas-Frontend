@@ -1,13 +1,14 @@
+
 // components/PrivateRoute.js
 import React from 'react';
 import { getToken } from '../services/authService';
-import { Navigate } from 'react-router-dom';
+import Unauthorized from '../pages/Unauthorized';
 
 const PrivateRoute = ({ children }) => {
   const token = getToken();
 
   if (!token) {
-    return <Navigate to="/unauthorized" replace />;
+    return <Unauthorized />;
   }
 
   return children;

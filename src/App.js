@@ -6,8 +6,6 @@ import RegisterPage from './pages/RegisterPage';
 import TaskPage from './pages/TaskPage';
 import CreateTaskPage from './pages/CreateTaskPage';
 import PrivateRoute from './components/PrivateRoute';
-import Unauthorized from './pages/Unauthorized';
-
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -15,7 +13,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function AppContent() {
   const location = useLocation();
-  const hideNavbarPaths = ['/login', '/register', '/unauthorized'];
+  const hideNavbarPaths = ['/login', '/register'];
 
   const shouldShowNavbar = !hideNavbarPaths.includes(location.pathname);
 
@@ -24,7 +22,6 @@ function AppContent() {
       {shouldShowNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/about" element={<h1>Acerca de</h1>} />
