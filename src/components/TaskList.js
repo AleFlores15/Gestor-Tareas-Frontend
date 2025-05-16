@@ -38,12 +38,9 @@ const TaskList = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFiltros((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleFiltrar = (e) => {
-    e.preventDefault();
-    cargarTareas(filtros);
+    const nuevosFiltros = { ...filtros, [name]: value };
+    setFiltros(nuevosFiltros);
+    cargarTareas(nuevosFiltros); // Aplica los filtros automáticamente
   };
 
   const handleReset = () => {
@@ -66,21 +63,26 @@ const TaskList = () => {
   return (
     <div className="container my-4">
       {/* Formulario de filtros */}
-      <form className="card shadow-sm p-3 mb-4" onSubmit={handleFiltrar}>
+      <form className="card shadow-sm p-3 mb-4" onSubmit={(e) => e.preventDefault()}>
         <div className="row gy-3 gx-3">
           <div className="col-md-4">
             <label htmlFor="search" className="form-label">
               <i className="bi bi-search me-1"></i>Buscar
             </label>
-            <input
-              type="text"
-              name="search"
-              id="search"
-              className="form-control"
-              placeholder="Título o descripción"
-              value={filtros.search}
-              onChange={handleInputChange}
-            />
+            <div className="input-group">
+              <span className="input-group-text">
+                <i className="bi bi-search"></i>
+              </span>
+              <input
+                type="text"
+                name="search"
+                id="search"
+                className="form-control"
+                placeholder="Título o descripción"
+                value={filtros.search}
+                onChange={handleInputChange}
+              />
+            </div>
           </div>
 
           <div className="col-md-2">
@@ -129,10 +131,7 @@ const TaskList = () => {
             />
           </div>
 
-          <div className="col-md-2 d-flex align-items-end gap-2">
-            <button type="submit" className="btn btn-primary w-100">
-              <i className="bi bi-funnel-fill me-1"></i>Filtrar
-            </button>
+          <div className="col-md-2 d-flex align-items-end">
             <button
               type="button"
               className="btn btn-outline-secondary w-100"
