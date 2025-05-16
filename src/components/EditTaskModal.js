@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const EditTaskModal = ({ show, onHide, onConfirm, tarea }) => {
-  const [titulo, setTitulo] = useState('');
-  const [descripcion, setDescripcion] = useState('');
-  const [fechaLimite, setFechaLimite] = useState('');
+  const [titulo, setTitulo] = useState(tarea.titulo || '');
+  const [descripcion, setDescripcion] = useState(tarea.descripcion || '');
+  const [fechaLimite, setFechaLimite] = useState(tarea.fechaLimite?.slice(0, 10) || '');
 
-  useEffect(() => {
-    if (tarea) {
-      setTitulo(tarea.titulo || '');
-      setDescripcion(tarea.descripcion || '');
-      setFechaLimite(tarea.fechaLimite?.split('T')[0] || '');
-    }
-  }, [tarea]);
+  // Obtener la fecha de hoy en formato yyyy-MM-dd con zona horaria de Bolivia
+  const getFechaHoy = () => {
+    const ahora = new Date();
+    const fechaBolivia = new Date(ahora.toLocaleString('en-US', { timeZone: 'America/La_Paz' }));
+    return fechaBolivia.toISOString().split('T')[0];
+  };
 
   const handleSubmit = () => {
+    if (!titulo.trim()) return alert('El título no puede estar vacío');
+    if (!fechaLimite) return alert('Debes establecer una fecha límite');
+
     onConfirm({
       titulo,
       descripcion,
@@ -25,15 +27,16 @@ const EditTaskModal = ({ show, onHide, onConfirm, tarea }) => {
     <div
       className={`modal fade ${show ? 'show d-block' : ''}`}
       tabIndex="-1"
-      role="dialog"
       style={{ backgroundColor: show ? 'rgba(0, 0, 0, 0.5)' : 'transparent' }}
+      role="dialog"
     >
-      <div className="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
-        <div className="modal-content rounded-4 shadow">
+      <div className="modal-dialog modal-dialog-centered" role="document">
+        <div className="modal-content rounded-4">
           <div className="modal-header">
             <h5 className="modal-title">Editar tarea</h5>
             <button type="button" className="btn-close" onClick={onHide}></button>
           </div>
+
           <div className="modal-body">
             <div className="mb-3">
               <label className="form-label">Título</label>
@@ -44,29 +47,33 @@ const EditTaskModal = ({ show, onHide, onConfirm, tarea }) => {
                 onChange={(e) => setTitulo(e.target.value)}
               />
             </div>
+
             <div className="mb-3">
               <label className="form-label">Descripción</label>
               <textarea
                 className="form-control"
                 value={descripcion}
                 onChange={(e) => setDescripcion(e.target.value)}
-              ></textarea>
+              />
             </div>
+
             <div className="mb-3">
               <label className="form-label">Fecha límite</label>
               <input
                 type="date"
                 className="form-control"
+                min={getFechaHoy()}
                 value={fechaLimite}
                 onChange={(e) => setFechaLimite(e.target.value)}
               />
             </div>
           </div>
-          <div className="modal-footer d-flex flex-column flex-sm-row gap-2">
-            <button className="btn btn-outline-secondary w-100" onClick={onHide}>
+
+          <div className="modal-footer d-flex justify-content-between">
+            <button className="btn btn-secondary" onClick={onHide}>
               Cancelar
             </button>
-            <button className="btn btn-primary w-100" onClick={handleSubmit}>
+            <button className="btn btn-primary" onClick={handleSubmit}>
               Guardar cambios
             </button>
           </div>
