@@ -39,8 +39,25 @@ const TaskList = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     const nuevosFiltros = { ...filtros, [name]: value };
+
+    if (name === "fechaInicio" || name === "fechaFin") {
+      const { fechaInicio, fechaFin } = nuevosFiltros;
+
+      if (
+        fechaInicio &&
+        fechaFin &&
+        new Date(fechaInicio) > new Date(fechaFin)
+      ) {
+        mostrarAlerta(
+          "La fecha 'Desde' no puede ser mayor que la fecha 'Hasta'",
+          "danger"
+        );
+        return; 
+      }
+    }
+
     setFiltros(nuevosFiltros);
-    cargarTareas(nuevosFiltros); // Aplica los filtros automáticamente
+    cargarTareas(nuevosFiltros); 
   };
 
   const handleReset = () => {
@@ -63,7 +80,10 @@ const TaskList = () => {
   return (
     <div className="container my-4">
       {/* Formulario de filtros */}
-      <form className="card shadow-sm p-3 mb-4" onSubmit={(e) => e.preventDefault()}>
+      <form
+        className="card shadow-sm p-3 mb-4"
+        onSubmit={(e) => e.preventDefault()}
+      >
         <div className="row gy-3 gx-3">
           <div className="col-md-4">
             <label htmlFor="search" className="form-label">
