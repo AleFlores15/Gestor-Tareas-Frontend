@@ -1,9 +1,7 @@
 import axios from 'axios';
-//importar desde .env
 
-
-const API_URL = 'http://localhost:3001/api/auth';
-
+const API_URL = `${process.env.REACT_APP_BACKEND_URL}/auth`;
+console.log('API_URL:', API_URL); 
 export const loginUser = async (email, password) => {
   try {
     const response = await axios.post(`${API_URL}/login`, {
