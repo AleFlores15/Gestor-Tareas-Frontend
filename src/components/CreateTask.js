@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { crearTarea } from '../services/taskService';
-import { useNavigate } from 'react-router-dom';
 
-const CreateTask = () => {
+const CreateTask = ({ onSubmit }) => {
   const [tarea, setTarea] = useState({
     titulo: '',
     descripcion: '',
@@ -10,22 +8,23 @@ const CreateTask = () => {
     fechaLimite: '',
   });
 
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
-
   const handleChange = (e) => {
     setTarea({ ...tarea, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      await crearTarea(tarea);
-      navigate('/tasks');
-    } catch (err) {
-      setError('No se pudo crear la tarea.');
-    }
+    onSubmit(tarea);
   };
+
+  // Fecha mínima hoy, respetando zona horaria local
+  const getTodayLocal = () => {
+    const today = new Date();
+    today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+    return today.toISOString().split('T')[0];
+  };
+
+  const today = getTodayLocal();
 
   return (
     <div className="container mt-5" style={{ maxWidth: '600px' }}>
@@ -33,8 +32,6 @@ const CreateTask = () => {
         <h2 className="mb-4 text-center">
           <i className="bi bi-plus-circle me-2"></i>Crear nueva tarea
         </h2>
-
-        {error && <div className="alert alert-danger">{error}</div>}
 
         <div className="mb-3">
           <label htmlFor="titulo" className="form-label">
@@ -78,6 +75,7 @@ const CreateTask = () => {
             className="form-control"
             value={tarea.fechaLimite}
             onChange={handleChange}
+            min={today}
           />
         </div>
 
