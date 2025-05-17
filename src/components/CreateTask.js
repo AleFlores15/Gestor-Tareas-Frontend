@@ -14,10 +14,15 @@ const CreateTask = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(tarea);
+
+    const tareaConFechaNull = {
+      ...tarea,
+      fechaLimite: tarea.fechaLimite === '' ? null : tarea.fechaLimite,
+    };
+
+    onSubmit(tareaConFechaNull);
   };
 
-  // Fecha mínima hoy, respetando zona horaria local
   const getTodayLocal = () => {
     const today = new Date();
     today.setMinutes(today.getMinutes() - today.getTimezoneOffset());

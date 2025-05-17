@@ -14,7 +14,6 @@ export const loginUser = async (email, password) => {
   }
 };
 
-//guardar el token en con una cookie
 export const saveToken = (token) => {
   localStorage.setItem('token', token);
 };
@@ -39,10 +38,11 @@ export const registerUser = async (nombre, email, password) => {
     throw error.response?.data || { message: 'Error al registrar usuario' };
   }
 };
+
 export const getUser = async () => {
     try {
         const token = getToken();
-        const response = await axios.get(`${API_URL}/user`, {
+        const response = await axios.get(`${API_URL}/me`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
