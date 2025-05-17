@@ -64,3 +64,19 @@ export const actualizarTarea = async (id, tarea) => {
     throw error;
   }
 };
+
+// Obtener una tarea por ID
+export const obtenerTareaPorId = async (id) => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${API_URL}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener tarea por ID:', error);
+    throw error;
+  }
+};

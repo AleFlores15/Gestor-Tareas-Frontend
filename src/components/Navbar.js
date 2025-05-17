@@ -84,6 +84,16 @@ function Navbar() {
                 </Link>
               </li>
 
+              <li className="nav-item mx-2">
+                <Link
+                  className="nav-link text-dark d-flex align-items-center gap-1"
+                  to="/tasksById"
+                >
+                  <i className="bi bi-search fs-5"></i>
+                  <span>Buscar Tarea por ID</span>
+                </Link>
+              </li>
+
               {/* Mi cuenta dropdown */}
               <li className="nav-item dropdown mx-2">
                 <button

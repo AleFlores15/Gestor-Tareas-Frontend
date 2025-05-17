@@ -7,6 +7,7 @@ import TaskPage from './pages/TaskPage';
 import CreateTaskPage from './pages/CreateTaskPage';
 import PrivateRoute from './components/PrivateRoute';
 import Unauthorized from './pages/Unauthorized';
+import TaskByIdPage from './pages/TaskByIdPage';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -40,6 +41,14 @@ function AppContent() {
           element={
             <PrivateRoute>
               <CreateTaskPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/tasksById"
+          element={
+            <PrivateRoute>
+              <TaskByIdPage />
             </PrivateRoute>
           }
         />
