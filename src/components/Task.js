@@ -113,9 +113,9 @@ const Task = ({ tarea, onTareaActualizada, onTareaEliminada }) => {
             <small className="text-muted">
               <i className="bi bi-calendar-event me-1"></i>
               {tarea.fechaLimite
-                ? `Fecha límite: ${new Date(
+                ? `Fecha límite: ${
                     tarea.fechaLimite
-                  ).toLocaleDateString()}`
+                  }`
                 : "Sin fecha límite"}
             </small>
           </p>
